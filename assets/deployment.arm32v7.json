@@ -1,0 +1,68 @@
+{
+  "modulesContent": {
+    "$edgeAgent": {
+      "properties.desired": {
+        "schemaVersion": "1.0",
+        "runtime": {
+          "type": "docker",
+          "settings": {
+            "minDockerVersion": "v1.25",
+            "loggingOptions": ""
+          }
+        },
+        "systemModules": {
+          "edgeAgent": {
+            "type": "docker",
+            "settings": {
+              "image": "mcr.microsoft.com/azureiotedge-agent:1.0",
+              "createOptions": "{}"
+            }
+          },
+          "edgeHub": {
+            "type": "docker",
+            "status": "running",
+            "restartPolicy": "always",
+            "settings": {
+              "image": "mcr.microsoft.com/azureiotedge-hub:1.0",
+              "createOptions": "{\"HostConfig\":{\"PortBindings\":{\"5671/tcp\":[{\"HostPort\":\"5671\"}],\"8883/tcp\":[{\"HostPort\":\"8883\"}],\"443/tcp\":[{\"HostPort\":\"443\"}]}}}"
+            }
+          }
+        },
+        "modules": {
+          "publisher": {
+            "settings": {
+              "image": "mcr.microsoft.com/iotedge/opc-publisher:latest",
+              "createOptions": "{\"Hostname\":\"publisher\",\"Cmd\":[\"--pf=/appdata/pn.json\",\"--aa\",\"--di=60\",\"--si=10\",\"--ih=Mqtt_Tcp_Only\"],\"HostConfig\":{\"Binds\":[\"/iiotedge:/appdata\"]}}"
+            },
+            "type": "docker",
+            "version": "1.0",
+            "status": "running",
+            "restartPolicy": "always"
+          },
+          "opctwin": {
+            "settings": {
+              "image": "mcr.microsoft.com/iotedge/opc-twin:latest",
+              "createOptions": "{\"Cmd\":[\"AutoAccept=true\"],\"NetworkingConfig\":{\"EndpointsConfig\":{\"host\":{}}},\"HostConfig\":{\"NetworkMode\":\"host\",\"CapAdd\":[\"NET_ADMIN\"]}}"
+            },
+            "type": "docker",
+            "version": "1.0",
+            "status": "running",
+            "restartPolicy": "always"
+          }
+        }
+      }
+    },
+    "$edgeHub": {
+      "properties.desired": {
+        "schemaVersion": "1.0",
+        "routes": {
+          "opctwinToIoTHub": "FROM /messages/modules/opctwin/* INTO $upstream",
+        "opcpublisherToIoTHub": "FROM /messages/modules/publisher/* INTO $upstream"
+        },
+        "storeAndForwardConfiguration": {
+          "timeToLiveSecs": 7200
+        }
+      }
+    }
+  }
+}
