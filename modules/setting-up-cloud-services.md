@@ -30,3 +30,15 @@
 .create table RawData ingestion json mapping 'RawDataMapping' '[{"column":"DeviceId","path":"$.iothub-connection-device-id","datatype":"string"},{"column":"RawJson","path":"$","datatype":"dynamic"}]'
 .alter table RawData policy ingestionbatching @'{"MaximumBatchingTimeSpan":"00:00:10", "MaximumNumberOfItems": 10, "MaximumRawDataSizeMB": 1}'
 ```
+
+```sql
+.show ingestion failures
+
+RawData
+| take 10
+
+RawData
+| where RawJson.DisplayName == "ns=2;s=|var|CPX-CEC-C1-V3.Application.GVL.temperature_CH0"
+| project todatetime(RawJson.Value.SourceTimestamp), toreal(RawJson.Value.Value)
+| render timechart
+```

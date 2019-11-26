@@ -1,13 +1,5 @@
 # Install Industrial IoT Components
 
-## Links
-[IIoT Engineering Tool](https://github.com/dacolgit/IIot-EngTool)
-
-
-## Cloud deployment
-
-Follow instructions in [Industrial IoT Github](https://github.com/Azure/Industrial-IoT)
-
 ## Edge Module Deployment
 
 * Deploy manifest
