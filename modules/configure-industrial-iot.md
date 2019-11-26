@@ -1,18 +1,22 @@
-# Install Industrial IoT Components
+# Configure Industrial IoT Components
 
-## Edge Module Deployment
+## Introduction
 
-* Deploy manifest
+In this module we will configure the gateway to coomunicate with our IoT Hub within the Indsutrial IoT solution.
 
+## Steps
 
-## Configure cloud dashboard
+### Edge Module Deployment
+
+* Follow the [guide](https://github.com/Azure/Industrial-IoT/blob/master/docs/howto-deploy-modules.md)
+
+### Configure cloud dashboard
 
 * Go to URL in App Service
 * Refresh page
 * Should see all gateways with twin modules
 
-
-## Test out OPC Publisher
+### Test out OPC Publisher
 
 * Invoke Direct Method `PublishNodes` with payload
     ```json
