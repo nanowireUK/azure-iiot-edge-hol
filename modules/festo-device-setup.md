@@ -10,7 +10,7 @@ The network settings of the device are configured using the [Festo Field Device 
 
 * Install tool
 * Set fixed IP on PC
-  * 192.168.2.73 (or anything in 192.168.2.0/24 range except 192.168.2.20)
+  * 192.168.1.170 (or anything in 192.168.2.0/24 range except 192.168.1.160)
   * Subnet 255.255.255.0
 * Launch FFDT
 * Device should autodiscover and appear in List View
@@ -28,13 +28,13 @@ The device can be restored to defaults by programmimng the [firmware](assets\CPX
 
 ## CPX-CEC2 Details
 
-Property    | Value
----         | ---
-Projectname | CPX-CEC-C1-V3
-Kernel      | FESTO CPX
-Driver      | CPX-CEC2 2.0.12-cec20 (7b80011ba009 ) [-CEC]
-CPU         | ARMv7
-Partnumber  | unknown
-IP Address  | 192.168.2.20
-IP Netmask  | 255.255.0.0
-MAC         | v00:0E:F0:5A:DE:AE
+| Property    | Value                                        |
+| ----------- | -------------------------------------------- |
+| Projectname | CPX-CEC-C1-V3                                |
+| Kernel      | FESTO CPX                                    |
+| Driver      | CPX-CEC2 2.0.12-cec20 (7b80011ba009 ) [-CEC] |
+| CPU         | ARMv7                                        |
+| Partnumber  | unknown                                      |
+| IP Address  | 192.168.1.160                                |
+| IP Netmask  | 255.255.255.0                                |
+| MAC         | v00:0E:F0:5A:DE:AE                           |
