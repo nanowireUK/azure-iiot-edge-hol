@@ -28,7 +28,7 @@ In this module we will configure the gateway to coomunicate with our IoT Hub wit
             "OpcPublishingInterval": 5000
         }
         ],
-        "EndpointUrl": "opc.tcp://192.168.2.20:4840",
+        "EndpointUrl": "opc.tcp://192.168.1.160:4840",
         "UseSecurity": false
     }
     ```

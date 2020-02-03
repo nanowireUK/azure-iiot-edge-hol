@@ -45,17 +45,17 @@ This module walks through the steps required to onboard the [Moxa UC-8112 Indust
     > This is specifically required for the Moxa device since this already uses overlayfs.
   * Run `sudo nano /etc/docker/daemon.json` and paste in the following configuration
 
-        ```json
-        {
-            "graph": "/overlayfs",
-            "log-driver": "json-file",
-            "dns": ["1.1.1.1"],
-            "log-opts": {
-                "max-size": "10m",
-                "max-file": "2"
-            }
+    ```json
+    {
+        "graph": "/overlayfs",
+        "log-driver": "json-file",
+        "dns": ["1.1.1.1"],
+        "log-opts": {
+            "max-size": "10m",
+            "max-file": "2"
         }
-        ```
+    }
+    ```
   * Restart docker to apply the new configuration `sudo systemctl restart docker`
 
 ### Current Libraries
