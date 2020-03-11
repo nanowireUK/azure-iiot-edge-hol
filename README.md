@@ -4,18 +4,25 @@
 
 This hands-on lab will walk you through the steps to build a complete Azure Industrial IoT Edge solution on a Moxa industrial PC and bring the data from a Festo device into the Azure cloud.
 
-## Main lab pathway
+## 1. Day - Main lab pathway
 
 1. [Set up development environment](modules/setup-dev-environment-local.md)
 2. [Deploy the Industrial IoT Solution](modules/deploy-industrial-iot.md)
 3. Setup a Gateway
    1. [Moxa](modules/moxa-gateway-setup.md)
    2. [Raspberry PI](modules/raspberry-pi-setup.md)
-4. [Configure the end-to-end solution](modules/configure-industrial-iot.md)
-5. [Set up additional cloud service](modules/setting-up-cloud-services.md)
+4. [Register the Gateway in IoT Hub](modules/register-gateway-iothub.md)
+5. [Configure the end-to-end solution](modules/configure-industrial-iot.md)
+6. [Set up additional cloud service](modules/setting-up-cloud-services.md)
 
-## Optional modules
+## 2. Day - Additional modules pathway
 
+* Zero Touch Device Provisioning via Device Provisiong Service (DPS)
+  * [Using a bare-metal IoT Edge Runtime](TODO)
+  * [Using Moxa Things Pro](TODO)
 * [Set up the Festo CPX CEC device](modules/festo-device-setup.md)
 * [Connect the CPX IoT Gateway to Festo Dashboards](modules/festo-dashboard.md)
-Customer brings own Azure Sub.
+
+## Information
+
+* Customer brings own Azure Sub.

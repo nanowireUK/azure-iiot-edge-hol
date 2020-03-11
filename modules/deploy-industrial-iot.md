@@ -11,7 +11,7 @@ In this module we deploy the [Azure Industrial IoT](https://github.com/Azure/Ind
 
 ## Steps
 
-Follow instructions in [Industrial IoT Github](https://github.com/Azure/Industrial-IoT/blob/master/docs/howto-deploy-microservices.md) to deploy the necessary PaaS and microservices.
+Follow instructions in [Industrial IoT Github](https://github.com/Azure/Industrial-IoT/blob/master/docs/deploy/howto-deploy-all-in-one.md) to deploy the necessary PaaS and microservices.
 
 ## Links
 [IIoT Engineering Tool](https://github.com/dacolgit/IIot-EngTool)
