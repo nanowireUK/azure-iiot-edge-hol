@@ -1,4 +1,4 @@
-# Configure Industrial IoT Components
+# Register Gateway in IoT Hub
 
 ## Introduction
 

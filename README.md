@@ -18,7 +18,7 @@ This hands-on lab will walk you through the steps to build a complete Azure Indu
 ## 2. Day - Additional modules pathway
 
 * Zero Touch Device Provisioning via Device Provisiong Service (DPS)
-  * [Using a bare-metal IoT Edge Runtime](TODO)
+  * [Using a bare-metal IoT Edge Runtime](./modules/iotedge-baremetal-tpm.md)
   * [Using Moxa Things Pro](TODO)
 * [Set up the Festo CPX CEC device](modules/festo-device-setup.md)
 * [Connect the CPX IoT Gateway to Festo Dashboards](modules/festo-dashboard.md)
