@@ -4,8 +4,6 @@
 
 This guide will connect a IoT Edge gateway to an IoT Hub via Device Provisioning Service (DPS) using a hardware TPM Module. While it's possible to use any gateway, this example will use a Moxa UC-8100A which features a TPM Module.
 
-> NOTE: In this example, we take ownership of the TPM Module and generate a new Endorsement Key + Registration ID. Often, you already received those values by the vendor. In this case, you can skip the first 3 steps and directly create the Individual Registration in azure.
-
 ## Prerequisites
 
 * [Moxa Gateway Setup](./moxa-gateway-setup.md)
@@ -16,14 +14,15 @@ This guide will connect a IoT Edge gateway to an IoT Hub via Device Provisioning
 ## Steps
 
 1. SSH to the Gateway
-1. `/usr/sbin/tpm2_takeownership -c`
 1. Download and run the latest TPMProvisioning tool from [GitHub Releases](https://github.com/nanowireUK/azure-iiot-edge-hol/releases/)
     ```sh
-    wget https://github.com/nanowireUK/azure-iiot-edge-hol/releases/download/0.0.1/TPMProvisioningTool
+    wget https://github.com/nanowireUK/azure-iiot-edge-hol/releases/download/0.0.2/TPMProvisioningTool
     chmod +x ./TPMProvisioningTool
-    ./TPMProvisioningTool <DPS_ID_Scope> tpm-device
+    ENDORSEMENT_KEY="$(./TPMProvisioningTool)"
+    echo "$ENDORSEMENT_KEY"
     # Output: Endorsement Key
     ```
+1. Generate a device unique registration-id (for example, `echo "$ENDORSEMENT_KEY" | sha256sum`)
 1. Add a new TPM `Invididual Registration` in Azure DPS with the above values or the values given out by your gateway vendor
     * device id can be left empty
 1. `sudo nano /etc/iotedge/config.yaml`

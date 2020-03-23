@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Azure.Devices.Provisioning.Security;
 
@@ -6,40 +8,32 @@ namespace TPMProvisioningTool
 {
   class Program
   {
-    private static string _idScope;
-    private static string _registrationId;
-
     static int Main(string[] args)
     {
-      Console.WriteLine("-- TPM Provision Client --");
 
-      if (args.Length > 0)
+      // The CTOR of Tpm2Lib prints errors to STDOUT, not very nice
+      var savedOutStream = Console.Out;
+      Console.SetOut(Console.Error);
+      using (var security = new SecurityProviderTpmHsm(string.Empty))
       {
-        _idScope = args[0];
-      }
-      if (args.Length > 1)
-      {
-        _registrationId = args[1];
-      }
-      if (string.IsNullOrEmpty(_idScope) || string.IsNullOrEmpty(_registrationId))
-      {
-        Console.WriteLine("Usage: TPMProvisioningTool <IDScope> <RegistrationID>");
-        return 1;
-      }
+        Console.SetOut(savedOutStream);
 
-      using (var security = new SecurityProviderTpmHsm(_registrationId))
-      {
-        // Note that the TPM simulator will create an NVChip file containing the simulated TPM state.
-        Console.WriteLine("Extracting endorsement key...");
         string base64EK = Convert.ToBase64String(security.GetEndorsementKey());
-
-        Console.WriteLine($"\tMechanism: TPM");
-        Console.WriteLine($"\tEndorsement key: {base64EK}");
-        Console.WriteLine($"\tRegistration ID: {_registrationId}");
-        Console.WriteLine("\n\n");
+        Console.WriteLine($"{base64EK}");
       }
 
       return 0;
+    }
+  }
+
+  public sealed class NullTextWriter : TextWriter
+  {
+    public override Encoding Encoding
+    {
+      get
+      {
+        return Encoding.UTF8;
+      }
     }
   }
 }
