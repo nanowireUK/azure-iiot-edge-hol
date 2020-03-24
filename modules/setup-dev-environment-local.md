@@ -18,6 +18,7 @@ You will need to have the following pre-requisites installed on your development
 
 * [Node.js](https://nodejs.org/en/)
 * [Download Ubuntu Server LTS 18.04](https://ubuntu.com/download/desktop)
+  > This is needed only if you want to set up an Edge instance on your machine for development purposes
 * [Enable Hyper-V in Windows](https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/quick-start/enable-hyper-v)
 * [Enable and install WSL](https://docs.microsoft.com/en-us/windows/wsl/install-win10)
 * [Visual Studio Code Remote Development Extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack)
