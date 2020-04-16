@@ -22,6 +22,7 @@ This hands-on lab will walk you through the steps to build a complete Azure Indu
   * [Using Moxa Things Pro](modules/Getting-Started-with-TPM-UC-8112A-TPE110_v1.pdf)
 * [Set up the Festo CPX CEC device](modules/festo-device-setup.md)
 * [Connect the CPX IoT Gateway to Festo Dashboards](modules/festo-dashboard.md)
+* [Process data in ADX](modules/adx.md)
 
 ## Information
 
