@@ -36,6 +36,28 @@ Depending on your OPC Data, some steps of the tutorial may need to be adjusted. 
 }
 ```
 
+```json
+{
+  "NodeId": "http://microsoft.com/Opc/OpcPlc/#s=PositiveTrendData",
+  "EndpointUrl": "opc.tcp://192.168.0.100:50000/",
+  "ApplicationUri": "urn:OpcPlc:192",
+  "DisplayName": null,
+  "Timestamp": "2020-04-16T11:18:03.5511918Z",
+  "Status": "Good",
+  "Value": {
+    "Value": 2018.00,
+    "SourceTimestamp": "2020-04-16T11:18:03.5375812Z",
+    "ServerTimestamp": "2020-04-16T11:18:03.5376173Z"
+  },
+  "ExtensionFields": {
+    "EndpointId": "uat5ccaee1cdce2d686f96b9dd7fa937e171dabb75b",
+    "PublisherId": "uat5ccaee1cdce2d686f96b9dd7fa937e171dabb75b",
+    "DataSetWriterId": "uat5ccaee1cdce2d686f96b9dd7fa937e171dabb75b"
+  }
+}
+```
+
+
 ## Steps
 
 1. Deploy an `Azure Date Explorer Cluster` service in your resource group (This may takes some time)
@@ -48,13 +70,14 @@ Depending on your OPC Data, some steps of the tutorial may need to be adjusted. 
     1. Create a database with a name of your choice and navigate to it via `Databases` on the left
     1. Create a table within that database using the `Query` tab on the right
         ```sql
-        .create table MyTable ( Timestamp:string, Value:real )
+        .create table MyTable ( Timestamp:datetime, Value:real, NodeID:string )
         ```
     1. Create a json mapping for your table:
         ```sql
         .create-or-alter table MyTable ingestion json mapping "MyTableMapping"
         '['
         '    { "column" : "Value", "Properties":{"Path":"$.Value.Value"}},'
+        '    { "column" : "NodeID", "Properties":{"Path":"$.NodeId"}},'
         '    { "column" : "Timestamp", "Properties":{"Path":"$.Timestamp"}}'
         ']'
         ```
@@ -77,4 +100,30 @@ SELECT * FROM MyTable
 
 ![img](../.imgs/adx_query_success.png)
 
+## Example Queries
 
+### Render both data points
+
+```sql
+MyTable
+| render linechart 
+```
+
+### Render specifc data point
+
+```sql
+MyTable
+| where NodeID == 'http://microsoft.com/Opc/OpcPlc/#s=PositiveTrendData'
+| render linechart 
+```
+
+### Detect Anomalies
+
+```sql
+MyTable
+| where NodeID == 'http://microsoft.com/Opc/OpcPlc/#s=DipData'
+| summarize Values = make_list(Value)
+| extend series_decompose_anomalies(Values)
+| mv-expand Values, series_decompose_anomalies_Values_ad_flag
+| project Values, series_decompose_anomalies_Values_ad_flag
+```
