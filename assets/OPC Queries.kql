@@ -1,0 +1,52 @@
+.show ingestion failures 
+
+MyTable
+| take 10
+
+RawData
+| where RawJson.DisplayName == "ns=2;s=|var|CPX-CEC-C1-V3.Application.GVL.temperature_CH0"
+| project todatetime(RawJson.Value.SourceTimestamp), toreal(RawJson.Value.Value)
+| render timechart   
+
+
+.drop table IoTRawTable
+
+.create table IoTRawTable (timestamp: datetime, deviceid:string, rawjson:dynamic)
+
+.create table IoTRawTable ingestion json mapping 'RawDataMapping' '[{"column":"deviceid","path":"$.iothub-connection-device-id","datatype":"string"},{"column":"rawjson","path":"$","datatype":"dynamic"},{"column":"timestamp","path":"$.iothub-enqueuedtime","datatype":"datetime"}]'
+
+.alter table IoTRawTable policy ingestionbatching @'{"MaximumBatchingTimeSpan":"00:00:10", "MaximumNumberOfItems": 10, "MaximumRawDataSizeMB": 1}'
+
+let NOTAKEYWORD = IoTRawTable
+| project deviceid, 
+    timestamp, 
+    sourcetimestamp = todatetime(rawjson.Value.ServerTimestamp),
+    publishertimestamp = todatetime(rawjson.Timestamp),
+    delay = timestamp - todatetime(rawjson.Value.ServerTimestamp),
+    delay2 = timestamp - todatetime(rawjson.Timestamp),
+    value = toreal(rawjson.Value.Value),
+    nodeid = tostring(rawjson.NodeId),
+    status = tostring(rawjson.Status),
+    appuri = tostring(rawjson.ApplicationUri)
+| where isnotnull(value) and delay < timespan(00:00:01.00)
+| sort by delay asc;
+NOTAKEYWORD
+| summarize event_count = count()
+ by bin(delay2, 2ms), nodeid
+ | sort by delay2 asc
+ | render timechart 
+
+IoTRawTable
+| project deviceid, 
+    timestamp, 
+    sourcetimestamp = todatetime(rawjson.Value.SourceTimestamp),
+    delay = timestamp - todatetime(rawjson.Value.SourceTimestamp),
+    value = toreal(rawjson.Value.Value),
+    nodeid = tostring(rawjson.NodeId),
+    status = tostring(rawjson.Status),
+    appuri = tostring(rawjson.ApplicationUri)
+| where isnotnull(value) and delay < timespan(00:00:01.00)
+| take 50
+| sort by timestamp desc;
+
+.show ingestion failures
