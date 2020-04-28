@@ -60,7 +60,7 @@ Depending on your OPC Data, some steps of the tutorial may need to be adjusted. 
 
 ## Steps
 
-1. Deploy an `Azure Date Explorer Cluster` service in your resource group (This may takes some time)
+1. Deploy an `Azure Date Explorer Cluster` service in your resource group (This may take some time)
 1. Visit the Eventhub Namespace of your Resource Group
     1. Click on your EventHub and add a Consumer Group `opc-data`
 1. Visit the IoT Hub of your Resource Group
@@ -106,7 +106,7 @@ SELECT * FROM MyTable
 
 ```sql
 MyTable
-| render linechart 
+| render linechart
 ```
 
 ### Render specifc data point
@@ -114,7 +114,7 @@ MyTable
 ```sql
 MyTable
 | where NodeID == 'http://microsoft.com/Opc/OpcPlc/#s=PositiveTrendData'
-| render linechart 
+| render linechart
 ```
 
 ### Detect Anomalies
@@ -127,3 +127,46 @@ MyTable
 | mv-expand Values, series_decompose_anomalies_Values_ad_flag
 | project Values, series_decompose_anomalies_Values_ad_flag
 ```
+
+
+<details>
+<summary>Old Module</summary>
+
+## Azure Data Explorer
+
+* Create Azure Data Explorer service with defaults
+* Create database with defaults
+* Connect to database with Kusto Explorer
+  * Create Connection
+  * Add connection string
+  * Replace catalog in CS with database name
+* Run queries below to generate the table
+* Create consumer group in IoT Hub
+* Create Data Connection
+  * IoT Hub
+  * Event system prop: device-id
+  * Target Table
+    * Table: RawData
+    * Data format: Json
+    * Column mapping: RawDataMapping
+
+```sql
+.create table RawData (DeviceId:string, RawJson:dynamic)
+.create table RawData ingestion json mapping 'RawDataMapping' '[{"column":"DeviceId","path":"$.iothub-connection-device-id","datatype":"string"},{"column":"RawJson","path":"$","datatype":"dynamic"}]'
+.alter table RawData policy ingestionbatching @'{"MaximumBatchingTimeSpan":"00:00:10", "MaximumNumberOfItems": 10, "MaximumRawDataSizeMB": 1}'
+```
+
+```sql
+.show ingestion failures
+
+RawData
+| take 10
+
+RawData
+| where RawJson.DisplayName == "ns=2;s=|var|CPX-CEC-C1-V3.Application.GVL.temperature_CH0"
+| project todatetime(RawJson.Value.SourceTimestamp), toreal(RawJson.Value.Value)
+| render timechart
+```
+
+
+</details>
