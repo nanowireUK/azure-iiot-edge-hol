@@ -61,112 +61,92 @@ Depending on your OPC Data, some steps of the tutorial may need to be adjusted. 
 ## Steps
 
 1. Deploy an `Azure Date Explorer Cluster` service in your resource group (This may take some time)
+
+---
+
+### A: Via EventHub
+
 1. Visit the Eventhub Namespace of your Resource Group
     1. Click on your EventHub and add a Consumer Group `opc-data`
 1. Visit the IoT Hub of your Resource Group
     1. On `Message Routing`, add the event hub + consumer group as a new `Custom Endpoint`
     1. Still on `Message Routing`, add a new route of all telemetry messages to the newly created EventHub endpoint
+
+### B: Via IoTHub
+
+1. Visit the IoT Hub of your Resource Group
+    1. On `Message Routing`, add a new `default` route if it doesn't exist
+        1. Endoints: `Events`
+        1. Data Source: `Device Telemetry Messages`
+
+---
+
 1. Visit your newly created `Azure Date Explorer` service
     1. Create a database with a name of your choice and navigate to it via `Databases` on the left
     1. Create a table within that database using the `Query` tab on the right
         ```sql
-        .create table MyTable ( Timestamp:datetime, Value:real, NodeID:string )
+        .create table IoTRawTable (timestamp: datetime, deviceid:string, rawjson:dynamic)
         ```
     1. Create a json mapping for your table:
         ```sql
-        .create-or-alter table MyTable ingestion json mapping "MyTableMapping"
+        .create-or-alter table IoTRawTable ingestion json mapping 'RawDataMapping'
         '['
-        '    { "column" : "Value", "Properties":{"Path":"$.Value.Value"}},'
-        '    { "column" : "NodeID", "Properties":{"Path":"$.NodeId"}},'
-        '    { "column" : "Timestamp", "Properties":{"Path":"$.Timestamp"}}'
+        '{ "column":"deviceid",  "path":"$.iothub-connection-device-id", "datatype":"string"},'
+        '{ "column":"rawjson",   "path":"$",                             "datatype":"dynamic"},'
+        '{ "column":"timestamp", "path":"$.iothub-enqueuedtime",         "datatype":"datetime"}'
         ']'
+
+        .alter table IoTRawTable policy ingestionbatching @'{"MaximumBatchingTimeSpan":"00:00:10", "MaximumNumberOfItems": 10, "MaximumRawDataSizeMB": 1}'
         ```
-    1. Create a new `Data Ingestion` entry with the following values:
-        | Key | Value |
-        |---:|---|
-        |  Connection Type | EventHub  |
-        |  Data Connection Name | `opc-data`  |
-        |  Event Hub Namespace | Your EH Namespace  |
-        |  Event Hub | Your EH  |
-        |  Consumer Group | `opc-data` |
-        |  Compression | None |
-        |  Table | MyTable |
-        |  Data Format | JSON |
-        |  Column Mapping | MyTableMapping |
-1. After some Minutes, try the following query:
-```sql
-SELECT * FROM MyTable
-```
+    1. Create a new `Data Ingestion` in the portal and fill out the required details for IoTHub/EventHub
+        1. When selecting IoTHub, make sure to select the following `Event System Properties`:
+          * `iothub-connection-device-id`
+          * `iothub-enqueuedtime`
+    1. After some Minutes, try the following query:
+    ```sql
+    IoTRawTable
+    | take 10
+    ```
 
 ![img](../.imgs/adx_query_success.png)
 
 ## Example Queries
 
-### Render both data points
+### Extract a mapping out of the JSON, sorted by latency
 
 ```sql
-MyTable
-| render linechart
+let MyMapping = IoTRawTable
+| project deviceid,
+    timestamp,
+    sourcetimestamp = todatetime(rawjson.Value.ServerTimestamp),
+    publishertimestamp = todatetime(rawjson.Timestamp),
+    delay = timestamp - todatetime(rawjson.Value.ServerTimestamp),
+    latency = timestamp - todatetime(rawjson.Timestamp),
+    value = toreal(rawjson.Value.Value),
+    nodeid = tostring(rawjson.NodeId),
+    status = tostring(rawjson.Status),
+    appuri = tostring(rawjson.ApplicationUri)
+| where isnotnull(value)
+| sort by latency asc;
 ```
 
-### Render specifc data point
+### Render charts
 
 ```sql
-MyTable
-| where NodeID == 'http://microsoft.com/Opc/OpcPlc/#s=PositiveTrendData'
-| render linechart
+MyMapping
+| summarize event_count = count()
+ by bin(latency, 2ms), nodeid
+ | sort by latency asc
+ | render timechart
 ```
 
 ### Detect Anomalies
 
 ```sql
-MyTable
-| where NodeID == 'http://microsoft.com/Opc/OpcPlc/#s=DipData'
-| summarize Values = make_list(Value)
+MyMapping
+| where nodeid == 'http://microsoft.com/Opc/OpcPlc/#s=DipData'
+| summarize Values = make_list(value)
 | extend series_decompose_anomalies(Values)
 | mv-expand Values, series_decompose_anomalies_Values_ad_flag
 | project Values, series_decompose_anomalies_Values_ad_flag
 ```
-
-
-<details>
-<summary>Old Module</summary>
-
-## Azure Data Explorer
-
-* Create Azure Data Explorer service with defaults
-* Create database with defaults
-* Connect to database with Kusto Explorer
-  * Create Connection
-  * Add connection string
-  * Replace catalog in CS with database name
-* Run queries below to generate the table
-* Create consumer group in IoT Hub
-* Create Data Connection
-  * IoT Hub
-  * Event system prop: device-id
-  * Target Table
-    * Table: RawData
-    * Data format: Json
-    * Column mapping: RawDataMapping
-
-```sql
-.create table RawData (DeviceId:string, RawJson:dynamic)
-.create table RawData ingestion json mapping 'RawDataMapping' '[{"column":"DeviceId","path":"$.iothub-connection-device-id","datatype":"string"},{"column":"RawJson","path":"$","datatype":"dynamic"}]'
-.alter table RawData policy ingestionbatching @'{"MaximumBatchingTimeSpan":"00:00:10", "MaximumNumberOfItems": 10, "MaximumRawDataSizeMB": 1}'
-```
-
-```sql
-.show ingestion failures
-
-RawData
-| take 10
-
-RawData
-| where RawJson.DisplayName == "ns=2;s=|var|CPX-CEC-C1-V3.Application.GVL.temperature_CH0"
-| project todatetime(RawJson.Value.SourceTimestamp), toreal(RawJson.Value.Value)
-| render timechart
-```
-
-
-</details>
