@@ -12,6 +12,8 @@ In this module we deploy the [Azure Industrial IoT](https://github.com/Azure/Ind
 
 Follow instructions in [Industrial IoT Github](https://github.com/Azure/Industrial-IoT/blob/master/docs/deploy/howto-deploy-all-in-one.md) to deploy the necessary PaaS and microservices.
 
+⚠ **By default, the deploy scripts includes simulators. To skip them, run the script via `.\deploy app`**
+
 👉 **Tip!** Make sure you start your `PowerShell` with Administrator Rights.
 
 👉 **Tip!** PowerShell 7 seems to cause some problems. Use the built-in PowerShell if possible.
