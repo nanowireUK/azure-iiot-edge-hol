@@ -21,3 +21,4 @@ The following page describes the technical requirements
 ## Azure Subscription Requirements
 
 * Can sign in on the [Azure Portal](https://portal.azure.com) with Microsoft or Organisational Account
+* Can create Azure Active Directory (AAD) Apps in the respective tenant, with Microsoft Graph 
