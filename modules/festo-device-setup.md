@@ -10,7 +10,7 @@ The network settings of the device are configured using the [Festo Field Device 
 
 * Install tool
 * Set fixed IP on PC
-  * 192.168.1.170 (or anything in 192.168.2.0/24 range except 192.168.1.160)
+  * 192.168.1.170 (or anything in 192.168.1.0/24 range except 192.168.1.160)
   * Subnet 255.255.255.0
 * Launch FFDT
 * Device should autodiscover and appear in List View
