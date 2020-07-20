@@ -3,9 +3,27 @@
 You are going to install the required VS Code extensions and optionally connect to a Linux VM via SSH for remote development.
 *Please keep in mind, if you want to work in a remote VM you will need to install all prerequisites in that VM after you've connected to it*
 
-## Required Software ##
+## Requirements for deploying the Industrial IoT solution ##
 
-You will need to have the following pre-requisites installed on your development workstation:
+1. Azure subscription
+   * Can sign in on the Azure Portal with Microsoft or Organisational Account
+   * Can create Azure Active Directory (AAD) Apps in the respective tenant, with Microsoft Graph
+1. Local machine
+   * Ability to connect via SSH (either Putty,  WSL or Powershell)
+   * PowerShell
+   * Azure CLI Extensions
+
+```powershell
+Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Force
+Install-Module -Name Az -AllowClobber
+Install-Module -Name AzureAD -AllowClobber
+```
+
+   * Modern Browser
+
+## Required software for developing IoT Edge solutions ##
+
+You will need to have the following pre-requisites installed on your development workstation in order to develop for IoT Edge:
 
 * [Visual Studio Code](https://code.visualstudio.com/Download)
   * [Azure IoT Tools Extension](https://marketplace.visualstudio.com/items?itemName=vsciot-vscode.azure-iot-tools)
