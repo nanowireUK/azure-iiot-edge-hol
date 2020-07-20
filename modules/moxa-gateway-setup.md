@@ -34,13 +34,13 @@ This module walks through the steps required to onboard the [Moxa UC-8112 Indust
 
 ### Install the IoT Edge Runtime
 
-* Go to [documentation for installing a specific runtime version](https://docs.microsoft.com/en-us/azure/iot-edge/how-to-install-iot-edge-linux#install-a-specific-runtime-version)
-    > This is required since we are installing on a Tier 2 OS. For installing on Ubuntu LTS or Raspbian Stretch follow this [guide]() instead.
-
+* Go to [Install the Azure IoT Edge runtime on Debian-based Linux systems](https://docs.microsoft.com/en-us/azure/iot-edge/how-to-install-iot-edge-linux)
 * Follow the instructions given to install:
   * Moby
   * IoT Edge Runtime
-  * libiothsm
+
+👉 **Tip!** The Moxa device also uses Debian and is ARM based, so it's compatible with **Raspian Stretch**
+
 * Modify the Docker storage location
     > This is specifically required for the Moxa device since this already uses overlayfs.
   * Run `sudo nano /etc/docker/daemon.json` and paste in the following configuration
@@ -57,41 +57,3 @@ This module walks through the steps required to onboard the [Moxa UC-8112 Indust
     }
     ```
   * Restart docker to apply the new configuration `sudo systemctl restart docker`
-
-### Current Libraries
-
-#### Moby
-
-> Links from [1.0.7 Release](https://github.com/Azure/azure-iotedge/releases/tag/1.0.7)
-
-* Moby Engine
-
-    ```sh
-    sudo wget -O moby-engine_3.0.5_armhf.deb https://github.com/Azure/azure-iotedge/releases/download/1.0.7/moby-engine_3.0.5_armhf.deb
-    sudo dpkg -i moby-engine_3.0.5_armhf.deb
-    ```
-
-* Moby Cli
-
-    ```sh
-    sudo wget -O moby-cli_3.0.5_armhf.deb https://github.com/Azure/azure-iotedge/releases/download/1.0.7/moby-cli_3.0.5_armhf.deb
-    sudo dpkg -i moby-cli_3.0.5_armhf.deb
-    ```
-
-#### IoT Edge
-
-> Links from [1.0.9.4 Release](https://github.com/Azure/azure-iotedge/releases/tag/1.0.9.4)
-
-* IoT Edge HSM library
-
-    ```sh
-    sudo wget -O libiothsm-std_1.0.9.4-1-1_debian9_armhf.deb https://github.com/Azure/azure-iotedge/releases/download/1.0.9.4/libiothsm-std_1.0.9.4-1-1_debian9_armhf.deb
-    sudo dpkg -i libiothsm-std_1.0.9.4-1-1_debian9_armhf.deb
-    ```
-
-* IoT Edge Security Daemon
-
-    ```sh
-    sudo wget -O iotedge_1.0.9.4-1_debian9_armhf.deb https://github.com/Azure/azure-iotedge/releases/download/1.0.9.4/iotedge_1.0.9.4-1_debian9_armhf.deb
-    sudo dpkg -i iotedge_1.0.9.4-1_debian9_armhf.deb
-    ```
