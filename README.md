@@ -13,8 +13,8 @@ This hands-on lab will walk you through the steps to build a complete Azure Indu
       * [Moxa](modules/moxa-gateway-setup.md)
       * [Raspberry PI](modules/raspberry-pi-setup.md)
    1. [Register the Gateway in IoT Hub](modules/register-gateway-iothub.md)
-1. [Configure the end-to-end solution](modules/configure-industrial-iot.md)
-1. [Set up additional cloud service](modules/working-with-industrial-data.md)
+1. [Connecting to an OPC-UA Application](modules/connecting-to-opcua-app.md)
+1. [Working with Industrial Data](modules/working-with-industrial-data.md)
 
 ## 2. Day - Additional modules pathway
 
