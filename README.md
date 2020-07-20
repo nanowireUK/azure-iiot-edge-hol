@@ -7,13 +7,14 @@ This hands-on lab will walk you through the steps to build a complete Azure Indu
 ## 1. Day - Main lab pathway
 
 1. [Set up development environment](modules/setup-dev-environment-local.md)
-2. [Deploy the Industrial IoT Solution](modules/deploy-industrial-iot.md)
-3. Setup a Gateway
-   1. [Moxa](modules/moxa-gateway-setup.md)
-   2. [Raspberry PI](modules/raspberry-pi-setup.md)
-4. [Register the Gateway in IoT Hub](modules/register-gateway-iothub.md)
-5. [Configure the end-to-end solution](modules/configure-industrial-iot.md)
-6. [Set up additional cloud service](modules/setting-up-cloud-services.md)
+1. [Deploy the Industrial IoT Solution](modules/deploy-industrial-iot.md)
+1. Setup up the Gateway
+   1. Either of the two choices:
+      * [Moxa](modules/moxa-gateway-setup.md)
+      * [Raspberry PI](modules/raspberry-pi-setup.md)
+   1. [Register the Gateway in IoT Hub](modules/register-gateway-iothub.md)
+1. [Configure the end-to-end solution](modules/configure-industrial-iot.md)
+1. [Set up additional cloud service](modules/working-with-industrial-data.md)
 
 ## 2. Day - Additional modules pathway
 

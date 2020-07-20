@@ -1,4 +1,4 @@
-# Setting up additional Cloud Services
+# Working with Industrial Data
 
 ## Time Series Insights
 
