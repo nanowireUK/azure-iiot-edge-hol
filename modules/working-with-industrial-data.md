@@ -8,6 +8,7 @@ The Industrial IoT Solution includes a pre-configured instance of Time Series In
 * Select the 'tsi-xxxxxx' Time Series Insights Environment service
 * Configure your user as a Reader and Contributor under 'Data Access Policies'
 * Click 'Go to TSI Explorer' to go through the Explorer
+* Follow the [Industrial IoT Tutorial for analysing data](https://azure.github.io/Industrial-IoT/tutorials/tut-timeseriesinsights.html) to create a Time Series Model
 
 ## Creating your own Time Series Insights instance
 
