@@ -80,18 +80,18 @@ This module walks through the steps required to onboard the [Moxa UC-8112 Indust
 
 #### IoT Edge
 
-> Links from [1.0.8 Release](https://github.com/Azure/azure-iotedge/releases/tag/1.0.8)
+> Links from [1.0.9.4 Release](https://github.com/Azure/azure-iotedge/releases/tag/1.0.9.4)
 
 * IoT Edge HSM library
 
     ```sh
-    sudo wget -O libiothsm-std_1.0.8-2_armhf.deb https://github.com/Azure/azure-iotedge/releases/download/1.0.8/libiothsm-std_1.0.8-2_armhf.deb
-    sudo dpkg -i libiothsm-std_1.0.8-2_armhf.deb
+    sudo wget -O libiothsm-std_1.0.9.4-1-1_debian9_armhf.deb https://github.com/Azure/azure-iotedge/releases/download/1.0.9.4/libiothsm-std_1.0.9.4-1-1_debian9_armhf.deb
+    sudo dpkg -i libiothsm-std_1.0.9.4-1-1_debian9_armhf.deb
     ```
 
-* IoT Edge dSecurity Daemon
+* IoT Edge Security Daemon
 
     ```sh
-    sudo wget -O iotedge_1.0.8-2_armhf.deb https://github.com/Azure/azure-iotedge/releases/download/1.0.8/libiothsm-std_1.0.8-2_armhf.deb
-    sudo dpkg -i iotedge_1.0.8-2_armhf.deb
+    sudo wget -O iotedge_1.0.9.4-1_debian9_armhf.deb https://github.com/Azure/azure-iotedge/releases/download/1.0.9.4/iotedge_1.0.9.4-1_debian9_armhf.deb
+    sudo dpkg -i iotedge_1.0.9.4-1_debian9_armhf.deb
     ```
