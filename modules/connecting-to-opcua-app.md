@@ -19,9 +19,10 @@ In this module we will configure the gateway to communicate with our IoT Hub wit
 ### Check Cloud Dashboard
 
 * Visit the URL of your IIoT setup, which is located in the deploy script output.
-* Make sure the gateway is listed under `Discovery`, `Publisher` and `Gateway`.
+* Follow the [Industrial IoT tutorial for discovering assets](https://azure.github.io/Industrial-IoT/tutorials/tut-discover-assets.html)
+* Follow the [Industrial IoT tutorial for subscribing to data](https://azure.github.io/Industrial-IoT/tutorials/tut-publish-data.html)
 
-### Test out OPC Publisher
+### ⚠ Advanced: Control the OPC publisher via the Industrial IoT CLI
 
 * Navigate to your cloned `Azure/Industrial-IoT` repository, then into `api\src\Microsoft.Azure.IIoT.Api\cli`
 * `dotnet restore` - Restore NuGET packages of the CLI
