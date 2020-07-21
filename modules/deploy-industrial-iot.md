@@ -12,7 +12,7 @@ In this module we deploy the [Azure Industrial IoT](https://github.com/Azure/Ind
 
 Follow instructions in [Industrial IoT Github](https://github.com/Azure/Industrial-IoT/blob/master/docs/deploy/howto-deploy-all-in-one.md) to deploy the necessary PaaS and microservices.
 
-⚠ **We're using the release 2.7.170, so make sure to run `git checkout release/2.7.170` after cloning the repository**
+⚠ **We're using the release 2.7.170, so make sure to run `git checkout release/2.7.170` after cloning the repository or [download the 2.7.170 archive here](https://github.com/Azure/Industrial-IoT/archive/release/2.7.170.zip)**
 
 ⚠ **By default, the deploy scripts includes simulators. To skip them, run the script via `.\deploy app`**
 
