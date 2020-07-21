@@ -6,6 +6,7 @@ You are going to install the required VS Code extensions and optionally connect 
 ## Requirements for deploying the Industrial IoT solution ##
 
 1. Azure subscription
+   * Access to a subscription within your azure tenant.
    * Can sign in on the Azure Portal with Microsoft or Organisational Account
    * Can create Azure Active Directory (AAD) Apps in the respective tenant, with Microsoft Graph
 1. Local machine
