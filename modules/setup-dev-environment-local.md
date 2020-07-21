@@ -12,6 +12,7 @@ You are going to install the required VS Code extensions and optionally connect 
    * Ability to connect via SSH (either Putty,  WSL or Powershell)
    * PowerShell
    * Azure CLI Extensions
+   * [Git](https://git-scm.com/download/win)
 
 ```powershell
 Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Force
